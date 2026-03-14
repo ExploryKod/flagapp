@@ -1,5 +1,5 @@
 import type { Country } from '@modules/countries/core/models/country.entity';
-import type { ICountryRepository } from '@modules/countries/core/application/repositories/countries.repository.interface';
+import type { ICountryRepository } from '@modules/countries/core/application/repositories/countries-repository.interface';
 
 /**
  * Stub implementation of ICountryRepository for unit tests.
@@ -15,6 +15,10 @@ export class StubCountriesRepository implements ICountryRepository {
     return undefined;
   }
 
+  async getCountryByName(_name: string): Promise<Country | undefined> {
+    return undefined;
+  }
+
   async getCountries(): Promise<Country[]> {
     if (this.getCountriesError) {
       throw this.getCountriesError;
@@ -22,3 +26,6 @@ export class StubCountriesRepository implements ICountryRepository {
     return [...this.countries];
   }
 }
+
+
+

@@ -2,6 +2,7 @@ import React from "react";
 import { getInjection } from "@modules/di/container";
 import { CountryCard } from "../components/CountryCard";
 import { Country } from "@flagapp/modules/countries/core/models/country.entity";
+import Link from "next/link";
 
 type CountryListProps = {
   countries: Country[];
@@ -17,11 +18,13 @@ export const CountryList: React.FC<CountryListProps> = ({ countries }) => {
       aria-label="List of countries"
     >
       {countries.map((country, index) => (
-        <CountryCard
-          key={`${country.id}-${index}`}
-          country={country}
-          className="min-w-0"
-        />
+        <Link href={`/${country.name.toLowerCase().replace(/ /g, "-")}`} key={`${country.id}-${index}`}>
+          <CountryCard
+            key={`${country.id}-${index}`}
+            country={country}
+            className="min-w-0"
+          />
+        </Link>
       ))}
     </section>
   );

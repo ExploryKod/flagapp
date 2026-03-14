@@ -18,8 +18,6 @@ export default async function Home(props: {
   const regionQuery = searchParams?.region ?? "";
 
   return (
-    <div className="min-h-screen bg-[var(--background)]">
-      <Header className="max-w-[1200px] w-full mx-auto" />
       <main className="max-w-[1200px] w-full mx-auto px-4 sm:px-6 space-y-8 py-6">
         <Suspense fallback={<div className="mb-3 h-[52px]" />}>
           <CountrySectionFiltersWithData />
@@ -31,6 +29,5 @@ export default async function Home(props: {
         />
         </Suspense>
       </main>
-    </div>
   );
 }
