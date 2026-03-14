@@ -72,3 +72,8 @@ nav .header-title {
     font-size: 1.25rem !important;
   }
 }
+
+/* Back button: subtle border in light mode only (dark mode uses shadow for definition) */
+html[data-theme="light"] .country-page-back-btn {
+  border: 1px solid hsl(200, 15%, 8%, 0.15);
+}
