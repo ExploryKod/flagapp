@@ -4,13 +4,16 @@ import type { CountriesPageViewModel } from '@modules/countries/interface-adapte
 
 export type IGetCountriesController = ReturnType<typeof getCountriesController>;
 
-/** Input from the driver (e.g. page): search query and optional filters. */
-export type GetCountriesControllerInput = { query?: string };
+/**
+ * Input from the driver (e.g. page). Two separate concerns:
+ * - textQuery: from the search input — filter by country name (text).
+ * - regionQuery: from the region select — exact match on country.region (API).
+ */
+export type GetCountriesControllerInput = { textQuery?: string; regionQuery?: string };
 
 /**
  * Controller for "Get Countries" (Uncle Bob: "Interface Adapter" — input side).
- * Receives the request (e.g. query from URL) and orchestrates: use case then presenter.
- * Does not contain business or presentation logic; only the flow.
+ * Receives the request and orchestrates: use case then presenter.
  */
 export function getCountriesController(
   getCountriesUseCase: IGetCountriesUseCase,
@@ -18,6 +21,6 @@ export function getCountriesController(
 ): (input?: GetCountriesControllerInput) => Promise<CountriesPageViewModel> {
   return async (input?: GetCountriesControllerInput): Promise<CountriesPageViewModel> => {
     const countries = await getCountriesUseCase();
-    return getCountriesOutputPort.present(countries, input?.query);
+    return getCountriesOutputPort.present(countries, input?.textQuery, input?.regionQuery);
   };
 }

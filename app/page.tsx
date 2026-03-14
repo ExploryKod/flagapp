@@ -1,29 +1,34 @@
-import { CountryListWithData } from "@modules/countries/react-ui/components/CountryListWithData";
-import { CountriesSkeleton } from "@modules/countries/react-ui/components/CountryList";
+import { CountryListWithData, CountriesSkeleton } from "@flagapp/modules/countries/react-ui/sections/CountryList";
+import { CountrySectionFiltersWithData } from "@flagapp/modules/countries/react-ui/sections/CountrySectionFilters";
 import { Header } from "@modules/app/react-ui/layout/Header";
-import { CountrySectionFilters } from "@modules/countries/react-ui/components/CountrySectionFilters";
 import { Suspense } from "react";
 
 /**
- * Page = Framework & Drivers (Uncle Bob). Data for the list is fetched inside
- * Suspense so that when the search query changes, the skeleton is shown until
- * the new list is ready (user sees loading feedback during the short re-render).
+ * Filters in their own Suspense (no key) so they stay visible when query changes.
+ * List in Suspense key=textQuery+regionQuery so only the list shows skeleton when either changes.
  */
 export default async function Home(props: {
   searchParams?: Promise<{
     query?: string;
+    region?: string;
   }>;
 }) {
   const searchParams = await props.searchParams;
-  const query = searchParams?.query ?? "";
+  const textQuery = searchParams?.query ?? "";
+  const regionQuery = searchParams?.region ?? "";
 
   return (
     <div className="min-h-screen bg-[var(--background)]">
       <Header className="max-w-[1200px] w-full mx-auto" />
       <main className="max-w-[1200px] w-full mx-auto px-4 sm:px-6 space-y-8 py-6">
-        <CountrySectionFilters countries={[]} />
-        <Suspense key={query} fallback={<CountriesSkeleton />}>
-          <CountryListWithData query={query} />
+        <Suspense fallback={<div className="mb-3 h-[52px]" />}>
+          <CountrySectionFiltersWithData />
+        </Suspense>
+        <Suspense key={`${textQuery}-${regionQuery}`} fallback={<CountriesSkeleton />}>
+          <CountryListWithData
+          textQuery={textQuery || undefined}
+          regionQuery={regionQuery && regionQuery !== "all" ? regionQuery : undefined}
+        />
         </Suspense>
       </main>
     </div>

@@ -8,4 +8,5 @@ import type { Country } from '@modules/countries/core/models/country.entity';
  */
 export type CountriesPageViewModel = {
   countries: Country[];
+  allRegions: string[];
 };

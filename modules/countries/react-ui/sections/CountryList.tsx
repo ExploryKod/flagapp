@@ -1,5 +1,6 @@
 import React from "react";
-import { CountryCard } from "./CountryCard";
+import { getInjection } from "@modules/di/container";
+import { CountryCard } from "../components/CountryCard";
 import { Country } from "@flagapp/modules/countries/core/models/country.entity";
 
 type CountryListProps = {
@@ -52,3 +53,19 @@ export const CountriesSkeleton: React.FC = () => {
     </section>
   );
 };
+
+/**
+ * Fetches via controller for current text query (and optional region query); renders CountryList.
+ * For use inside Suspense so only the list shows skeleton when query changes.
+ */
+export async function CountryListWithData({
+  textQuery,
+  regionQuery,
+}: {
+  textQuery?: string;
+  regionQuery?: string;
+}) {
+  const getCountriesController = getInjection("IGetCountriesController");
+  const viewModel = await getCountriesController({ textQuery, regionQuery });
+  return <CountryList countries={viewModel.countries} />;
+}
