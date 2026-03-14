@@ -3,7 +3,10 @@ import type { IGetCountryByNameOutputPort } from './get-country-by-name.output-p
 import type { CountryByNamePageViewModel } from './get-country-by-name.view-model';
 
 function present(country: Country | undefined): CountryByNamePageViewModel {
-  return { country: country ?? null };
+  return {
+    country: country ?? null,
+    borderCountryNames: country?.borderCountryNames,
+  };
 }
 
 export const getCountryByNamePresenter: IGetCountryByNameOutputPort = {

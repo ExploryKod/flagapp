@@ -18,7 +18,8 @@ function DetailRow({ label, value }: { label: string; value: string }) {
 }
 
 export const CountryArticle: React.FC<CountryArticleProps> = ({ viewModel, layoutClassName = "" }) => {
-  const { country, borderCountryNames = [] } = viewModel;
+  const { country } = viewModel;
+  const borderCountryNames = viewModel.borderCountryNames ?? country?.borderCountryNames ?? [];
 
   if (!country) {
     return (
@@ -60,17 +61,31 @@ export const CountryArticle: React.FC<CountryArticleProps> = ({ viewModel, layou
         {/* Two columns of key-value details */}
         <div className="grid grid-cols-1 gap-y-2 md:grid-cols-2 md:gap-x-10 md:gap-y-1">
           <div className="space-y-1">
+            {country.nativeName != null && country.nativeName !== "" && (
+              <DetailRow label="Native Name" value={country.nativeName} />
+            )}
             <DetailRow label="Population" value={country.population.toLocaleString()} />
             <DetailRow label="Region" value={country.region || "—"} />
+            {country.subregion != null && country.subregion !== "" && (
+              <DetailRow label="Sub Region" value={country.subregion} />
+            )}
             <DetailRow label="Capital" value={country.capital || "—"} />
           </div>
           <div className="space-y-1">
-            {/* Right column: extend with Native Name, Sub Region, TLD, Currencies, Languages when available from API */}
+            {country.tld != null && country.tld !== "" && (
+              <DetailRow label="Top Level Domain" value={country.tld} />
+            )}
+            {country.currencies != null && country.currencies !== "" && (
+              <DetailRow label="Currencies" value={country.currencies} />
+            )}
+            {country.languages != null && country.languages !== "" && (
+              <DetailRow label="Languages" value={country.languages} />
+            )}
           </div>
         </div>
 
         {/* Border Countries */}
-        {borderCountryNames.length > 0 && (
+        {(borderCountryNames?.length ?? 0) > 0 && (
           <div className="flex flex-wrap items-center gap-2 pt-2">
             <span className="text-base font-semibold text-[var(--foreground)] mr-2">
               Border Countries:

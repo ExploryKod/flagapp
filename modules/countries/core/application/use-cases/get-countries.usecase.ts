@@ -1,5 +1,5 @@
 import type { Country } from '@modules/countries/core/models/country.entity';
-import type { ICountryRepository } from '@modules/countries/core/application/repositories/countries.repository.interface';
+import type { ICountryRepository } from '@modules/countries/core/application/repositories/countries-repository.interface';
 import type { IInstrumentationService } from '@modules/core/application/services/intrumentation.service.interface';
 
 export type IGetCountriesUseCase = ReturnType<typeof getCountriesUseCase>;

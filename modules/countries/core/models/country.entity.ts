@@ -9,7 +9,13 @@ export const selectCountrySchema = z.object({
   }),
   population: z.number(),
   region: z.string(),
-  capital: z.string()
+  capital: z.string(),
+  nativeName: z.string().optional(),
+  subregion: z.string().optional(),
+  tld: z.string().optional(),
+  currencies: z.string().optional(),
+  languages: z.string().optional(),
+  borderCountryNames: z.array(z.string()).optional(),
 });
 export type Country = z.infer<typeof selectCountrySchema>;
 
