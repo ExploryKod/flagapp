@@ -1,14 +1,30 @@
-import { getInjection } from "@flagapp/modules/di/container";
-import { CountryList } from "@flagapp/modules/countries/react-ui/components/CountryList";
+import { CountryListWithData } from "@modules/countries/react-ui/components/CountryListWithData";
+import { CountriesSkeleton } from "@modules/countries/react-ui/components/CountryList";
+import { Header } from "@modules/app/react-ui/layout/Header";
+import { CountrySectionFilters } from "@modules/countries/react-ui/components/CountrySectionFilters";
+import { Suspense } from "react";
 
-export default async function Home() {
-  const countriesRepository = getInjection("ICountryRepository");
-  const countries = await countriesRepository.getCountries();
+/**
+ * Page = Framework & Drivers (Uncle Bob). Data for the list is fetched inside
+ * Suspense so that when the search query changes, the skeleton is shown until
+ * the new list is ready (user sees loading feedback during the short re-render).
+ */
+export default async function Home(props: {
+  searchParams?: Promise<{
+    query?: string;
+  }>;
+}) {
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query ?? "";
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-4xl">
-        <CountryList countries={countries} />
+    <div className="min-h-screen bg-[var(--background)]">
+      <Header className="max-w-[1200px] w-full mx-auto" />
+      <main className="max-w-[1200px] w-full mx-auto px-4 sm:px-6 space-y-8 py-6">
+        <CountrySectionFilters countries={[]} />
+        <Suspense key={query} fallback={<CountriesSkeleton />}>
+          <CountryListWithData query={query} />
+        </Suspense>
       </main>
     </div>
   );

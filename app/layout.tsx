@@ -1,30 +1,14 @@
-import { Roboto, Inter, Roboto_Mono, Oswald } from "next/font/google";
+import { Nunito_Sans } from "next/font/google";
 import "@flagapp/app/globals.css";
+import { ThemeProvider } from "@modules/app/react-ui/ThemeProvider";
 
-const roboto = Roboto({
+const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
+  weight: ["300", "600", "800"],
+  display: "swap",
+  variable: "--font-nunito-sans",
+  adjustFontFallback: true,
 });
-
-// Ajout de la police Inter
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-})
-
-// Ajout de la police Roboto Mono
-const roboto_mono = Roboto_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-roboto-mono',
-})
-
-const oswald = Oswald({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-oswald',
-})
 
 export const metadata = {
   title: "Taste Federation - demo",
@@ -38,9 +22,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${roboto_mono.variable} ${oswald.variable} overflow-x-hidden antialiased`}>
-      <body className={`${roboto.className}`}>
-        {children}
+    <html lang="fr" 
+    className={`${nunitoSans.variable} overflow-x-hidden antialiased`}
+    suppressHydrationWarning
+    >
+      <body className={nunitoSans.className} suppressHydrationWarning>
+        <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>{children}</ThemeProvider>
       </body>
     </html>
   );

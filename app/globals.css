@@ -1,26 +1,74 @@
 @import "tailwindcss";
 
+/* Default (light) – used when no data-theme is set yet (e.g. before hydration) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: hsl(0, 0%, 99%);
+  --foreground: hsl(200, 15%, 8%);
+  --elements: hsl(0, 100%, 100%);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-nunito-sans);
 }
 
+/* next-themes sets data-theme on <html> – these must override :root and @media */
+html[data-theme="light"] {
+  --background: hsl(0, 0%, 99%);
+  --foreground: hsl(200, 15%, 8%);
+  --elements: hsl(0, 100%, 100%);
+}
+
+html[data-theme="dark"] {
+  --background: hsl(207, 26%, 17%);
+  --foreground: hsl(0, 100%, 100%);
+  --elements: hsl(209, 23%, 22%);
+}
+
+/* Fallback when no theme chosen (e.g. system preference) */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme]) {
+    --background: hsl(207, 26%, 17%);
+    --foreground: hsl(0, 100%, 100%);
+    --elements: hsl(209, 23%, 22%);
   }
+}
+
+/* Legacy theme names – keep if still used elsewhere */
+[data-theme='light'] {
+  --primary-color: #932f67;
+  --secondary-color: #d92c54;
+  --third-color: #dddeab;
+}
+[data-theme='dark'] {
+  --primary-color: #799eff;
+  --secondary-color: #feffc4;
+  --third-color: #ffde63;
+}
+[data-theme='system'] {
+  --primary-color: #fe7743;
+  --secondary-color: #273f4f;
+  --third-color: #447d9b;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-nunito-sans), system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+/* Header title: override any external/injected h1 styles (e.g. data-styled, extensions) */
+nav .header-title {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  margin: 0 !important;
+  font-size: 1.125rem !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+}
+@media (min-width: 640px) {
+  nav .header-title {
+    font-size: 1.25rem !important;
+  }
 }
