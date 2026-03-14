@@ -6,7 +6,7 @@ import { CountryRegionFilter } from "../components/CountryRegionFilter";
 /** regions: from presenter (viewModel.allRegions) only. */
 export const CountrySectionFilters: React.FC<{ regions: string[] }> = ({ regions }) => {
   return (
-    <section className="mb-3 flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center">
+    <section className="header-search-gap-y mb-3 flex flex-col sm:flex-row sm:justify-between sm:items-center">
       <CountrySearcher placeholder="Search for a country..." />
       <CountryRegionFilter regions={regions} />
     </section>

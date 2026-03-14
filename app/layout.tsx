@@ -12,9 +12,9 @@ const nunitoSans = Nunito_Sans({
 });
 
 export const metadata = {
-  title: "Taste Federation - demo",
+  title: "Flag App - frontendmentor challenge",
   description:
-    "Site de démonstration Taste Federation pour la réservation en ligne de tables de restaurants de luxe.",
+    "Site de démonstration Flag App pour le challenge frontendmentor.",
 };
 
 export default function RootLayout({
@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className={nunitoSans.className} suppressHydrationWarning>
         <ThemeProvider attribute="data-theme" defaultTheme="dark" enableSystem={false}>
           <div className="min-h-screen bg-[var(--background)] w-full mx-auto">
-          <Header className="max-w-[1200px] w-full mx-auto  py-4 px-4" />
+          <Header className="header-max-w header-height header-space-x" />
             {children}
           </div>
           </ThemeProvider>

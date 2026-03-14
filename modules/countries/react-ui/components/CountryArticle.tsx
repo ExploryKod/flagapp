@@ -34,26 +34,26 @@ export const CountryArticle: React.FC<CountryArticleProps> = ({ viewModel, layou
 
   return (
     <article
-      className={`flex flex-col gap-8 md:flex-row md:gap-12 lg:gap-20 text-[var(--foreground)] ${layoutClassName ?? ""}`.trim()}
+      className={`country-article-layout text-[var(--foreground)] ${layoutClassName ?? ""}`.trim()}
       aria-label={`Details for ${country.name}`}
     >
-      {/* Flag — left */}
-      <div className="flex-shrink-0 w-full md:w-1/2 lg:w-2/5 aspect-[4/3] relative overflow-hidden rounded-sm bg-transparent">
+      {/* Flag — 50% on desktop, max 560×401 */}
+      <div className="country-flag-dimensions w-full relative overflow-hidden rounded-sm bg-transparent">
         {flagUrl && (
           <Image
             src={flagUrl}
             alt={country.flags?.alt ?? `${country.name} flag`}
-            width={500}
-            height={500}
-            sizes="(max-width: 768px) 100vw, 50vw, 40vw"
-            className="object-cover"
+            width={560}
+            height={401}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover w-full h-full"
             priority
           />
         )}
       </div>
 
-      {/* Details — right */}
-      <div className="flex flex-grow flex-col gap-6 md:w-1/2 lg:w-3/5">
+      {/* Details — 50% on desktop */}
+      <div className="flex flex-col gap-6 min-w-0">
         <h1 className="text-3xl font-bold text-[var(--foreground)] md:text-4xl">
           {country.name}
         </h1>
@@ -71,7 +71,7 @@ export const CountryArticle: React.FC<CountryArticleProps> = ({ viewModel, layou
             )}
             <DetailRow label="Capital" value={country.capital || "—"} />
           </div>
-          <div className="space-y-1">
+          <div className="mt-[32px] md:mt-0 space-y-1">
             {country.tld != null && country.tld !== "" && (
               <DetailRow label="Top Level Domain" value={country.tld} />
             )}
@@ -110,9 +110,9 @@ export const CountryArticle: React.FC<CountryArticleProps> = ({ viewModel, layou
 
 export const CountryArticleSkeleton: React.FC = () => {
   return (
-    <article className="flex flex-col gap-8 md:flex-row md:gap-12 lg:gap-20">
-      <div className="w-full md:w-1/2 lg:w-2/5 aspect-[4/3] animate-pulse rounded-sm bg-[var(--elements)]" />
-      <div className="flex flex-grow flex-col gap-6 md:w-1/2 lg:w-3/5">
+    <article className="country-article-layout">
+      <div className="country-flag-dimensions w-full animate-pulse rounded-sm bg-[var(--elements)]" />
+      <div className="flex flex-col gap-6 min-w-0">
         <div className="h-9 w-48 animate-pulse rounded bg-[var(--elements)]" />
         <div className="grid grid-cols-1 gap-y-2 md:grid-cols-2 md:gap-x-10">
           {[1, 2, 3].map((i) => (

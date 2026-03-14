@@ -26,7 +26,7 @@ export const CountrySearcher: React.FC<{ placeholder: string }> = ({ placeholder
       <input
         type="search"
         placeholder="Search for a country..."
-        className="flex-1 max-w-md px-4 py-3 rounded-lg bg-[var(--elements)] text-[var(--foreground)] placeholder:text-gray-400 border-0 shadow-sm"
+        className="input-space-x flex-1 max-w-md py-3 rounded-lg bg-[var(--elements)] text-[var(--foreground)] placeholder:text-gray-400 border-0 shadow-sm"
         aria-label="Search for a country"
         onChange={(e) => debouncedHandleSearch(e.target.value)}
         defaultValue={searchParams.get('query')?.toString() || ''}

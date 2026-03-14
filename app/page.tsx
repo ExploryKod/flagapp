@@ -1,6 +1,5 @@
 import { CountryListWithData, CountriesSkeleton } from "@flagapp/modules/countries/react-ui/sections/CountryList";
 import { CountrySectionFiltersWithData } from "@flagapp/modules/countries/react-ui/sections/CountrySectionFilters";
-import { Header } from "@modules/app/react-ui/layout/Header";
 import { Suspense } from "react";
 
 /**
@@ -18,7 +17,7 @@ export default async function Home(props: {
   const regionQuery = searchParams?.region ?? "";
 
   return (
-      <main className="max-w-[1200px] w-full mx-auto px-4 sm:px-6 space-y-8 py-6">
+      <main className="header-main-y header-max-w content-space-x">
         <Suspense fallback={<div className="mb-3 h-[52px]" />}>
           <CountrySectionFiltersWithData />
         </Suspense>
