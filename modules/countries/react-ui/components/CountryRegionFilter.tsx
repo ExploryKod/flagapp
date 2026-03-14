@@ -9,7 +9,7 @@ function optionLabel(value: string): string {
 
 type Props = { regions: string[] };
 
-export const CountryRegionFilter: React.FC<Props> = () => {
+export const CountryRegionFilter: React.FC<Props> = ({ regions }) => {
 
 
   const [isOpen, setIsOpen] = useState(false);
@@ -75,7 +75,7 @@ export const CountryRegionFilter: React.FC<Props> = () => {
       case "Enter":
       case " ":
         e.preventDefault();
-        handleSelect(["Africa", "America", "Asia", "Europe", "Oceania"][activeIndex]);
+        handleSelect([...regions][activeIndex]);
         break;
       case "Escape":
         e.preventDefault();
