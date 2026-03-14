@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useId } from "react";
-
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 function optionLabel(value: string): string {
   return value === "" ? "All regions" : value;
@@ -10,10 +10,19 @@ function optionLabel(value: string): string {
 type Props = { regions: string[] };
 
 export const CountryRegionFilter: React.FC<Props> = ({ regions }) => {
-
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const searchParams = useSearchParams();
+  const regionsList = Array.isArray(regions) ? regions : [];
+  const options = ["", ...regionsList];
 
   const [isOpen, setIsOpen] = useState(false);
-
+  const [isSearching, setIsSearching] = useState(false);
+  const [selected, setSelected] = useState<string>(() => {
+    const r = searchParams.get("region");
+    if (r === "all" || r === null || r === "") return "";
+    return regionsList.includes(r) ? r : "";
+  });
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const listboxRef = useRef<HTMLUListElement>(null);
@@ -22,7 +31,12 @@ export const CountryRegionFilter: React.FC<Props> = ({ regions }) => {
   const listboxId = `${id}-listbox`;
   const optionId = (i: number) => `${id}-option-${i}`;
 
-
+  useEffect(() => {
+    const r = searchParams.get("region");
+    if (r === "all" || r === null || r === "") setSelected("");
+    else if (regionsList.includes(r)) setSelected(r);
+    setIsSearching(false);
+  }, [searchParams, regionsList]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -36,13 +50,19 @@ export const CountryRegionFilter: React.FC<Props> = ({ regions }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-
-
   useEffect(() => {
     if (!isOpen) return;
     const el = document.getElementById(optionId(activeIndex));
     el?.scrollIntoView({ block: "nearest" });
   }, [activeIndex, isOpen, id]);
+
+  useEffect(() => {
+    if (isOpen) {
+      const idx = options.indexOf(selected);
+      setActiveIndex(idx >= 0 ? idx : 0);
+      listboxRef.current?.focus();
+    }
+  }, [isOpen, selected, options]);
 
   function handleToggle() {
     setIsOpen((prev) => !prev);
@@ -50,15 +70,17 @@ export const CountryRegionFilter: React.FC<Props> = ({ regions }) => {
   }
 
   function handleSelect(region: string) {
-    const params = new URLSearchParams();
-    if (region === "") {
-      params.set("region", "all");
-    } else {
-      params.set("region", region);
-    }
-
+    setIsSearching(true);
+    setSelected(region);
     setIsOpen(false);
     triggerRef.current?.focus();
+    const params = new URLSearchParams();
+    if (region !== "") {
+      params.set("region", region);
+    } else {
+      params.set("region", "all");
+    }
+    replace(params.toString() ? `${pathname}?${params.toString()}` : pathname);
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
@@ -66,16 +88,16 @@ export const CountryRegionFilter: React.FC<Props> = ({ regions }) => {
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
-        setActiveIndex((i) => (i + 1) % 6);
+        setActiveIndex((i) => (i + 1) % options.length);
         break;
       case "ArrowUp":
         e.preventDefault();
-        setActiveIndex((i) => (i - 1 + 6) % 6);
+        setActiveIndex((i) => (i - 1 + options.length) % options.length);
         break;
       case "Enter":
       case " ":
         e.preventDefault();
-        handleSelect([...regions][activeIndex]);
+        handleSelect(options[activeIndex]);
         break;
       case "Escape":
         e.preventDefault();
@@ -101,8 +123,17 @@ export const CountryRegionFilter: React.FC<Props> = ({ regions }) => {
         aria-haspopup="listbox"
         aria-controls={listboxId}
         onClick={handleToggle}
+        disabled={isSearching}
+        aria-busy={isSearching}
       >
-        All regions
+        {isSearching ? (
+          <span className="inline-flex items-center gap-2">
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--foreground)]/30 border-t-[var(--foreground)]" aria-hidden />
+            Searching…
+          </span>
+        ) : (
+          optionLabel(selected)
+        )}
       </button>
       <svg
         className={`pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--foreground)]/70 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
@@ -124,12 +155,12 @@ export const CountryRegionFilter: React.FC<Props> = ({ regions }) => {
           className="absolute z-10 mt-1 w-full py-2 rounded-lg bg-[var(--elements)] text-[var(--foreground)] border-0 shadow-lg list-none outline-none"
           onKeyDown={handleKeyDown}
         >
-          {["Africa", "America", "Asia", "Europe", "Oceania"].map((region, i) => (
+          {options.map((region, i) => (
             <li
               key={region || "all"}
               id={optionId(i)}
               role="option"
-              aria-selected={region === "all"}
+              aria-selected={selected === region}
               tabIndex={-1}
               className="focus:outline-none"
             >
