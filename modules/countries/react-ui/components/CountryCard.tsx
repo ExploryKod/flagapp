@@ -11,8 +11,8 @@ export const CountryCard: React.FC<CountryCardProps> = ({ country, className }) 
   const flagUrl = country.flags?.img || "";
 
   return (
-    <article className={`max-w-[250px] w-full overflow-hidden rounded-lg bg-[var(--elements)] text-[var(--foreground)] shadow-md ${className ?? ""}`.trim()}>
-      <div className="relative h-[160px] w-full overflow-hidden rounded-t-lg bg-[var(--background)]">
+    <article className={`mx-auto w-full max-w-[var(--card-image-w)] overflow-hidden rounded-lg bg-[var(--elements)] text-[var(--foreground)] shadow-md ${className ?? ""}`.trim()}>
+      <div className="card-image-dimensions relative w-full overflow-hidden rounded-t-lg bg-[var(--background)]">
         {flagUrl && (
           <Image
             src={flagUrl}
@@ -23,7 +23,7 @@ export const CountryCard: React.FC<CountryCardProps> = ({ country, className }) 
           />
         )}
       </div>
-      <div className="px-6 py-5">
+      <div className="px-6 py-5 country-card-min-h">
         <h2 className="mb-3 text-lg font-bold">{country.name}</h2>
         <ul className="list-none space-y-1 text-sm opacity-90">
           <li>

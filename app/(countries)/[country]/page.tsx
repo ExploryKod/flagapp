@@ -26,7 +26,7 @@ export default async function CountryArticlePage({
   const viewModel = await getCountryByNameController({ name });
 
   return (
-  <div className="max-w-[1200px] w-full mx-auto py-4 px-4">
+  <div className="country-content-edge-x w-full py-4">
     <div className="my-5">
       <CountryPageBackBtn />
     </div>

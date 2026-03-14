@@ -5,12 +5,37 @@
   --background: hsl(0, 0%, 99%);
   --foreground: hsl(200, 15%, 8%);
   --elements: hsl(0, 100%, 100%);
+
+  /* Layout spacing – change once, apply everywhere */
+  --spacing-edge-mobile: 16px;
+  --spacing-edge-tablet: 40px;
+  --spacing-edge-desktop: 80px;
+  --header-max-w: 1280px;
+  --header-height: 80px;
+  --card-list-gap-desktop: 72px;
+  --card-list-gap-y-mobile: 49px;
+  --header-main-gap-y-mobile: 24px;
+  --header-main-gap-y-desktop: 48px;
+  --header-search-gap-y-desktop: 48px;
+  --header-search-gap-y-mobile: 24px;
+  --card-image-w: 260px;
+  --card-image-h: 160px;
+  --input-space-x: 24px;
+  --country-flag-max-w: 560px;
+  --country-flag-max-h: 401px;
+  --country-article-gap: 2rem; /* gap between flag and country info */
+  --country-content-edge-tablet: 100px;
+  --country-content-edge-mobile: 27px;
+  --country-card-min-h: 250px;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-nunito-sans);
+  /* Layout spacing as theme so @apply + breakpoints work */
+  --spacing-header-main-y-mobile: var(--header-main-gap-y-mobile);
+  --spacing-header-main-y-desktop: var(--header-main-gap-y-desktop);
 }
 
 /* next-themes sets data-theme on <html> – these must override :root and @media */
@@ -76,4 +101,69 @@ nav .header-title {
 /* Back button: subtle border in light mode only (dark mode uses shadow for definition) */
 html[data-theme="light"] .country-page-back-btn {
   border: 1px solid hsl(200, 15%, 8%, 0.15);
+}
+
+/* Edge padding (header nav, filters, list) – aligned with header max-width */
+.header-space-x,
+.content-space-x {
+  @apply px-[var(--spacing-edge-mobile)] sm:px-[var(--spacing-edge-tablet)] md:px-[var(--spacing-edge-desktop)];
+}
+
+/* Header container */
+.header-max-w {
+  @apply w-full mx-auto;
+  max-width: var(--header-max-w);
+}
+.header-height {
+  min-height: var(--header-height);
+}
+
+/* Vertical space between header and main (home page) */
+.header-main-y {
+  @apply mt-header-main-y-mobile md:mt-header-main-y-desktop;
+}
+
+/* Home: search section vertical gap */
+.header-search-gap-y {
+  @apply gap-y-[var(--header-search-gap-y-mobile)] md:gap-y-[var(--header-search-gap-y-desktop)];
+}
+
+/* Country card list gaps: desktop 72px x/y, mobile 49px y */
+.card-list-gap {
+  @apply gap-[var(--card-list-gap-y-mobile)] md:gap-[var(--card-list-gap-desktop)];
+}
+
+/* Country card image */
+.card-image-dimensions {
+  max-width: var(--card-image-w);
+  height: var(--card-image-h);
+}
+
+/* Search input horizontal padding (icon/placeholder spacing) */
+.input-space-x {
+  @apply px-[var(--input-space-x)];
+}
+
+/* Country page: flag and info 50/50 with gap (row from lg, tablet stays column) */
+.country-article-layout {
+  @apply flex flex-col gap-[var(--country-article-gap)] lg:flex-row;
+}
+.country-article-layout > * {
+  @apply lg:flex-1 lg:min-w-0;
+}
+
+/* Flag: max dimensions only, aspect ratio 560/401 */
+.country-flag-dimensions {
+  max-width: var(--country-flag-max-w);
+  max-height: var(--country-flag-max-h);
+  aspect-ratio: 560 / 401;
+}
+
+/* Country page content: edge margin x (content centered, not aligned with header) */
+.country-content-edge-x {
+  @apply px-[var(--country-content-edge-mobile)] sm:px-[var(--country-content-edge-tablet)];
+}
+
+.country-card-min-h {
+  @apply min-h-[var(--country-card-min-h)];
 }

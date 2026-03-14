@@ -14,7 +14,7 @@ type CountryListProps = {
 export const CountryList: React.FC<CountryListProps> = ({ countries }) => {
   return (
     <section
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
+      className="flex flex-wrap justify-centermd:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 card-list-gap"
       aria-label="List of countries"
     >
       {countries.map((country, index) => (
@@ -22,7 +22,7 @@ export const CountryList: React.FC<CountryListProps> = ({ countries }) => {
           <CountryCard
             key={`${country.id}-${index}`}
             country={country}
-            className="min-w-0"
+            className="min-w-[var(--card-image-w)]"
           />
         </Link>
       ))}
@@ -33,7 +33,7 @@ export const CountryList: React.FC<CountryListProps> = ({ countries }) => {
 export const CountriesSkeleton: React.FC = () => {
   return (
     <section
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8"
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 card-list-gap"
       aria-label="Loading countries"
     >
       {Array.from({ length: 12 }).map((_, index) => (
@@ -42,7 +42,7 @@ export const CountriesSkeleton: React.FC = () => {
           className="w-full min-w-0 overflow-hidden rounded-lg bg-[var(--elements)] shadow-md"
           aria-hidden
         >
-          <div className="h-[160px] w-full animate-pulse rounded-t-lg bg-[var(--background)]/60" />
+          <div className="card-image-dimensions w-full animate-pulse rounded-t-lg bg-[var(--background)]/60" />
           <div className="px-6 py-5 space-y-3">
             <div className="h-5 w-3/4 max-w-[180px] animate-pulse rounded bg-[var(--foreground)]/20" />
             <ul className="list-none space-y-2">
