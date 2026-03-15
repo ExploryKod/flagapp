@@ -1,15 +1,38 @@
 
 # FLAG APP
 
+## Goals
 I created this project using [Next.js16](https://nextjs.org) 
+
 
 This is a simple project made fastly in few hours that call a public API and render countries and their information. There is a list of countries (home page) and country page for each country. 
 So for now, only a few set of business rules and two use-case inside one "countries" module exist.
 It could evolve to add new modules and business rules.
 
+### Learning clean architecture and partially initiate to DDD
+
 I wanted to learn good design pattern and software architecture with a simple project. It is over-engeneering for a real project but ideal to train and learn on this type of architecture. 
 
+### Learning NextJs 
+
+I was attentive to separate between server and client component to have the best performance and use skeleton to give the user a good navigation (using skeleton, loading state if needed, retain its navigation history). 
+
+I decide some trade-off for loading external data : using params is good to keep history but it is necessary to call the server each time so skeleton was necessary. I can enhance this in a new move I plan using the new cache control utils given by NextJs 16 : this is for me a very interesting revolution. I plan to carefully test this so I let it for later, I don't want to just implement it but I want to deeply understand it.
+
+
 I deployed this project on vercel very fastly and easily. The main technical interest isn't about server architecture but application architecture.
+
+## Limits 
+
+This is a personal project I wanted to ship fast but there is a lot of things to do in order to show a good mini-project. 
+
+There a lot of things to do to make this project good regarding good pratices : 
+- SEO enhancement (no sitemap, no checks about numerous problems...)
+- RGAA and accessibility rules are not met
+- Security is weak (security headers, check in nextjs common vulnerabilities and external lib security etc.)
+- No CI/CD, tests are not complete : only unit tests, no integrations or e2e
+- Lack of documentations about api call and other docs, lack of inner code documentation, tests need to serve as doc too but are too simple for now
+- (...)
 
 ## Local Installation
 
