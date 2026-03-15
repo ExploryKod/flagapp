@@ -1,17 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# FLAG APP
 
-First, run the development server:
+I created this project using [Next.js16](https://nextjs.org) 
+
+This is a simple project made fastly in few hours that call a public API and render countries and their information. There is a list of countries (home page) and country page for each country. 
+So for now, only a few set of business rules and two use-case inside one "countries" module exist.
+It could evolve to add new modules and business rules.
+
+I wanted to learn good design pattern and software architecture with a simple project. It is over-engeneering for a real project but ideal to train and learn on this type of architecture. 
+
+I deployed this project on vercel very fastly and easily. The main technical interest isn't about server architecture but application architecture.
+
+## Local Installation
+
+You need nodejs, npm or pnpm and other sofware we normally use for web development. 
+There no database for now (only a call to a public API). 
+So I have not designed a docker configuration as it is very easy for now to setup.
+
+Install dependencies : 
+
+```bash
+npm install
+# or
+pnpm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
 # or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
