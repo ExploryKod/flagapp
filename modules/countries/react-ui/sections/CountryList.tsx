@@ -14,16 +14,16 @@ type CountryListProps = {
 export const CountryList: React.FC<CountryListProps> = ({ countries }) => {
   return (
     <section
-      className="flex flex-wrap justify-centermd:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 card-list-gap"
+      className="flex flex-wrap justify-center md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 card-list-gap"
       aria-label="List of countries"
     >
       {countries.map((country, index) => (
-        <Link href={`/${country.name.toLowerCase().replace(/ /g, "-")}`} key={`${country.id}-${index}`}>
-          <CountryCard
-            key={`${country.id}-${index}`}
-            country={country}
-            className="min-w-[var(--card-image-w)]"
-          />
+        <Link
+          href={`/${country.name.toLowerCase().replace(/ /g, "-")}`}
+          key={`${country.id}-${index}`}
+          className="block min-w-[var(--card-image-w)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground)]/30 rounded-lg"
+        >
+          <CountryCard country={country} className="min-w-0 transition-opacity hover:opacity-90" />
         </Link>
       ))}
     </section>
