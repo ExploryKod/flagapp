@@ -22,7 +22,8 @@
       "@flagapp/*": ["./*"],
       "@modules/*": ["./modules/*"],
       "@store/*": ["./modules/store/*"]
-    }
+    },
+    "types": ["node"]
   },
   "include": [
     "next-env.d.ts",

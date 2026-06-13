@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "flags.restcountries.com",
+      },
+      {
+        protocol: "https",
         hostname: "upload.wikimedia.org",
       },
     ],
