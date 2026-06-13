@@ -62,7 +62,7 @@ export async function fetchCountryNamesByAlpha3(codes: string[]): Promise<string
       const res = await fetch(url, { headers: authHeaders(), next: { revalidate: 3600 } });
       if (res.status === 404) return '';
       const body = await parseResponse(res);
-      return body.data?.objects?.[0]?.['names.common'] ?? '';
+      return body.data?.objects?.[0]?.names?.common ?? '';
     })
   );
   return names.filter(Boolean);

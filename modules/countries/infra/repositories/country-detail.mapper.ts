@@ -3,7 +3,7 @@ import type { RestCountryItem } from './countries.mapper';
 import { mapToCountry } from './countries.mapper';
 
 function firstNativeName(item: RestCountryItem): string {
-  const native = item['names.native'];
+  const native = item.names?.native;
   if (!native || typeof native !== 'object') return '';
   const first = Object.values(native)[0];
   return first?.common ?? first?.official ?? '';
@@ -11,11 +11,8 @@ function firstNativeName(item: RestCountryItem): string {
 
 function formatCurrencies(item: RestCountryItem): string {
   const cur = item.currencies;
-  if (!cur || typeof cur !== 'object') return '';
-  return Object.values(cur)
-    .map((c) => c?.name)
-    .filter(Boolean)
-    .join(', ');
+  if (!Array.isArray(cur) || cur.length === 0) return '';
+  return cur.map((c) => c.name).filter(Boolean).join(', ');
 }
 
 function formatLanguages(item: RestCountryItem): string {

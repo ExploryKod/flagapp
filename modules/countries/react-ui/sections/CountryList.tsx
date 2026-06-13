@@ -1,8 +1,7 @@
 import React from "react";
 import { getInjection } from "@modules/di/container";
-import { CountryCard } from "../components/CountryCard";
+import { CountryCard, countrySlug } from "../components/CountryCard";
 import { Country } from "@flagapp/modules/countries/core/models/country.entity";
-import Link from "next/link";
 
 type CountryListProps = {
   countries: Country[];
@@ -18,13 +17,11 @@ export const CountryList: React.FC<CountryListProps> = ({ countries }) => {
       aria-label="List of countries"
     >
       {countries.map((country, index) => (
-        <Link
-          href={`/${country.name.toLowerCase().replace(/ /g, "-")}`}
+        <CountryCard
           key={`${country.id}-${index}`}
-          className="block min-w-[var(--card-image-w)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--foreground)]/30 rounded-lg"
-        >
-          <CountryCard country={country} className="min-w-0 transition-opacity hover:opacity-90" />
-        </Link>
+          country={country}
+          href={`/${countrySlug(country.name)}`}
+        />
       ))}
     </section>
   );
