@@ -2,6 +2,7 @@ import React from "react";
 import { getInjection } from "@modules/di/container";
 import { CountrySearcher } from "../components/CountrySearcher";
 import { CountryRegionFilter } from "../components/CountryRegionFilter";
+import { renderRestCountriesError } from "../components/render-rest-countries-error";
 
 /** regions: from presenter (viewModel.allRegions) only. */
 export const CountrySectionFilters: React.FC<{ regions: string[] }> = ({ regions }) => {
@@ -18,7 +19,11 @@ export const CountrySectionFilters: React.FC<{ regions: string[] }> = ({ regions
  * For use in its own Suspense (no key) so filters stay visible when query changes.
  */
 export async function CountrySectionFiltersWithData() {
-  const getCountriesController = getInjection("IGetCountriesController");
-  const viewModel = await getCountriesController({});
-  return <CountrySectionFilters regions={viewModel.allRegions} />;
+  try {
+    const getCountriesController = getInjection("IGetCountriesController");
+    const viewModel = await getCountriesController({});
+    return <CountrySectionFilters regions={viewModel.allRegions} />;
+  } catch (error) {
+    return renderRestCountriesError(error);
+  }
 }

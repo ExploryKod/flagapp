@@ -1,4 +1,5 @@
 import type { RestCountriesApiResponse, RestCountryItem } from './countries.mapper';
+import { RestCountriesApiError } from '@modules/countries/infra/errors/rest-countries-api.error';
 
 const REST_COUNTRIES_BASE = 'https://api.restcountries.com/countries/v5';
 
@@ -11,7 +12,7 @@ const DETAIL_FIELDS =
 function getApiKey(): string {
   const apiKey = process.env.REST_COUNTRIES_API_KEY;
   if (!apiKey) {
-    throw new Error('REST_COUNTRIES_API_KEY is not set');
+    throw new RestCountriesApiError(0, ['REST_COUNTRIES_API_KEY is not set on the server']);
   }
   return apiKey;
 }
@@ -21,11 +22,25 @@ function authHeaders(): HeadersInit {
 }
 
 async function parseResponse(res: Response): Promise<RestCountriesApiResponse> {
-  const body = (await res.json()) as RestCountriesApiResponse;
-  if (!res.ok || body.errors?.length) {
-    const message = body.errors?.[0]?.message ?? res.statusText;
-    throw new Error(`REST Countries API error: ${message}`);
+  let body: RestCountriesApiResponse;
+
+  try {
+    body = (await res.json()) as RestCountriesApiResponse;
+  } catch {
+    throw new RestCountriesApiError(res.status, [
+      `Invalid JSON response from REST Countries (${res.status} ${res.statusText})`,
+    ]);
   }
+
+  const apiMessages = body.errors?.map((e) => e.message).filter(Boolean) as string[] | undefined;
+
+  if (!res.ok || (apiMessages && apiMessages.length > 0)) {
+    throw new RestCountriesApiError(
+      res.status,
+      apiMessages?.length ? apiMessages : [`HTTP ${res.status} ${res.statusText}`]
+    );
+  }
+
   return body;
 }
 
