@@ -2,6 +2,7 @@ import React from "react";
 import { getInjection } from "@modules/di/container";
 import { CountryCard, countrySlug } from "../components/CountryCard";
 import { Country } from "@flagapp/modules/countries/core/models/country.entity";
+import { renderRestCountriesError } from "../components/render-rest-countries-error";
 
 type CountryListProps = {
   countries: Country[];
@@ -65,7 +66,11 @@ export async function CountryListWithData({
   textQuery?: string;
   regionQuery?: string;
 }) {
-  const getCountriesController = getInjection("IGetCountriesController");
-  const viewModel = await getCountriesController({ textQuery, regionQuery });
-  return <CountryList countries={viewModel.countries} />;
+  try {
+    const getCountriesController = getInjection("IGetCountriesController");
+    const viewModel = await getCountriesController({ textQuery, regionQuery });
+    return <CountryList countries={viewModel.countries} />;
+  } catch (error) {
+    return renderRestCountriesError(error);
+  }
 }
