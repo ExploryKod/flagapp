@@ -1,11 +1,9 @@
-import { CountryListWithData, CountriesSkeleton } from "@flagapp/modules/countries/react-ui/sections/CountryList";
-import { CountrySectionFiltersWithData } from "@flagapp/modules/countries/react-ui/sections/CountrySectionFilters";
+import {
+  HomeCountriesSection,
+  HomeCountriesSkeleton,
+} from "@flagapp/modules/countries/react-ui/sections/HomeCountriesSection";
 import { Suspense } from "react";
 
-/**
- * Filters in their own Suspense (no key) so they stay visible when query changes.
- * List in Suspense key=textQuery+regionQuery so only the list shows skeleton when either changes.
- */
 export default async function Home(props: {
   searchParams?: Promise<{
     query?: string;
@@ -18,14 +16,11 @@ export default async function Home(props: {
 
   return (
       <main className="header-main-y header-max-w content-space-x">
-        <Suspense fallback={<div className="mb-3 h-[52px]" />}>
-          <CountrySectionFiltersWithData />
-        </Suspense>
-        <Suspense key={`${textQuery}-${regionQuery}`} fallback={<CountriesSkeleton />}>
-          <CountryListWithData
-          textQuery={textQuery || undefined}
-          regionQuery={regionQuery && regionQuery !== "all" ? regionQuery : undefined}
-        />
+        <Suspense key={`${textQuery}-${regionQuery}`} fallback={<HomeCountriesSkeleton />}>
+          <HomeCountriesSection
+            textQuery={textQuery || undefined}
+            regionQuery={regionQuery && regionQuery !== "all" ? regionQuery : undefined}
+          />
         </Suspense>
       </main>
   );

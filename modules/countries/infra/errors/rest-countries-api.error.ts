@@ -17,7 +17,7 @@ function statusLabel(status: number): string {
 }
 
 function defaultTitle(status: number): string {
-  if (status === 403) return 'API request limit reached';
+  if (status === 403) return 'Flags are not available for now';
   if (status === 401) return 'API authentication failed';
   if (status === 429) return 'Too many requests';
   if (status === 0) return 'Countries data unavailable';
@@ -27,7 +27,7 @@ function defaultTitle(status: number): string {
 
 function defaultHint(status: number): string {
   if (status === 403) {
-    return 'Your REST Countries monthly quota may be exhausted. Requests are paused until your billing cycle resets or you upgrade your plan.';
+    return "The developer's REST Countries account has reached its maximum credit limit — we're sorry, but flags aren't available for now. We're working on a solution to show other interesting content during these moments when credits are no longer available. Wait and you'll see new features soon. Have a great time!";
   }
   if (status === 401) {
     return 'Check that REST_COUNTRIES_API_KEY is valid and active.';

@@ -1,5 +1,5 @@
 import React from "react";
-import { getInjection } from "@modules/di/container";
+import { getCountriesPageViewModel } from "@modules/countries/interface-adapters/cached/get-countries.cached";
 import { CountrySearcher } from "../components/CountrySearcher";
 import { CountryRegionFilter } from "../components/CountryRegionFilter";
 import { renderRestCountriesError } from "../components/render-rest-countries-error";
@@ -20,8 +20,7 @@ export const CountrySectionFilters: React.FC<{ regions: string[] }> = ({ regions
  */
 export async function CountrySectionFiltersWithData() {
   try {
-    const getCountriesController = getInjection("IGetCountriesController");
-    const viewModel = await getCountriesController({});
+    const viewModel = await getCountriesPageViewModel({});
     return <CountrySectionFilters regions={viewModel.allRegions} />;
   } catch (error) {
     return renderRestCountriesError(error);

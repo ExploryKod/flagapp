@@ -1,5 +1,5 @@
 import React from "react";
-import { getInjection } from "@modules/di/container";
+import { getCountriesPageViewModel } from "@modules/countries/interface-adapters/cached/get-countries.cached";
 import { CountryCard, countrySlug } from "../components/CountryCard";
 import { Country } from "@flagapp/modules/countries/core/models/country.entity";
 import { renderRestCountriesError } from "../components/render-rest-countries-error";
@@ -67,8 +67,7 @@ export async function CountryListWithData({
   regionQuery?: string;
 }) {
   try {
-    const getCountriesController = getInjection("IGetCountriesController");
-    const viewModel = await getCountriesController({ textQuery, regionQuery });
+    const viewModel = await getCountriesPageViewModel({ textQuery, regionQuery });
     return <CountryList countries={viewModel.countries} />;
   } catch (error) {
     return renderRestCountriesError(error);
